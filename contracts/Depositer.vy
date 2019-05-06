@@ -1,6 +1,7 @@
 # @dev Implement deposit ERC721
 
 contract ERC721:
+  def approve(_approved: address, _tokenId: uint256): modifying
   def transferFrom(_from: address, _to: address, _tokenId: uint256): modifying
   def ownerOf(_tokenId: uint256) -> address: constant
 
@@ -27,6 +28,7 @@ def deposit(
   _depositer: address = msg.sender
   assert ERC721(_token).ownerOf(_tokenId) == _depositer
   ERC721(_token).transferFrom(_depositer, self, _tokenId)
+  self.processDeposit(_token, _tokenId, _depositer)
 
 @public
 @constant
